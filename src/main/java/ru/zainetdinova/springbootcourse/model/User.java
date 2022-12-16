@@ -82,4 +82,16 @@ public class User implements UserDetails {
             this.roles.add(role);
 
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId()  && getUserName().equals(user.getUserName()) && getPassword().equals(user.getPassword())  && getRoles().equals(user.getRoles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUserName(), getPassword(), getRoles());
+    }
 }

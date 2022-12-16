@@ -15,7 +15,9 @@ import ru.zainetdinova.springbootcourse.model.Role;
 import ru.zainetdinova.springbootcourse.model.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -56,16 +58,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(int id) {
         userDao.deleteUser(id);
     }
-    @Transactional
-    @Override
-    public void updateUser(User user) {
-        userDao.updateUser(user);
-    }
+//    @Transactional
+//    @Override
+//    public void updateUser(User user) {
+//        userDao.updateUser(user);
+//    }
 
     @Transactional
     @Override
     public User getUserByName(String userName) {
         return userDao.getUserByName(userName);
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(User user){
+        User updatedUser =userDao.getUser(user.getId());
+        updatedUser.setId(user.getId());
+        updatedUser.setUserName(user.getUserName());
+        updatedUser.setRoles(user.getRoles());
+
+        updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+
+
+
+        userDao.saveUser(updatedUser);
     }
 
 
